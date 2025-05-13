@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Courses</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Lexend+Deca:wght@100..900&family=Onest:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      background-color: #f5f5f5;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 100vh;
+      background-color: #333333;
+      color: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .logo {
+        text-align: center;
+        padding: 10px 0;
+        font-family: "Lexend Deca", sans-serif;
+        font-size: 10px;
+    }
+
+
+    .menu {
+      padding: 0;
+    }
+
+    .menu-item {
+      padding: 15px 20px;
+      display: block;
+      color: #ecf0f1;
+      text-decoration: none;
+      transition: background 0.3s;
+      font-family: "Comfortaa", sans-serif;
+    }
+    .menu-item i {
+  margin-right: 10px;
+  width: 18px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+    .menu-item:hover {
+      background-color: #777777;
+    }
+
+    .signout {
+      padding: 15px 20px;
+      background-color: #c0392b;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .signout:hover {
+      background-color: #e74c3c;
+    }
+
+    .main {
+      margin-left: 220px;
+      padding: 20px 40px;
+      flex: 1;
+      font-family: "Comfortaa", sans-serif;
+      font-weight: 600px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "Lexend Deca", sans-serif;
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+
+
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: "Lexend Deca", sans-serif;
+    }
+
+    .filters input[type="text"] {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: "Lexend Deca", sans-serif;
+    }
+
+    .filters select {
+      padding: 8px;
+      border-radius: 4px;
+      font-family: "Lexend Deca", sans-serif;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+      font-family: "Comfortaa", sans-serif;
+    }
+
+    .course-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .course-card:hover {
+      transform: scale(1.01);
+    }
+
+    .course-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .course-info {
+      padding: 15px;
+    }
+
+    .course-info h3 {
+      margin: 0 0 5px;
+      font-size: 16px;
+    }
+
+    .course-info p {
+      margin: 0;
+      color: #666;
+      font-size: 13px;
+    }
+
+    .course-footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 15px;
+      font-size: 13px;
+      color: #3498db;
+    }
+
+    .course-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .star, .more {
+      cursor: pointer;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .star:hover {
+      color: #f1c40f;
+    }
+        /* Account Sub-Sidebar */
+   .account-sidebar, .organization-sidebar  {
+  position: fixed;
+  top: 0;
+  left: -220px;
+  width: 220px;
+  height: 100vh;
+  background-color: #333333;
+  color: #ecf0f1;
+  transition: left 0.3s ease;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.account-sidebar.show {
+  left: 220px;
+}
+
+.organization-sidebar.show {
+      left: 220px;
+    }
+
+.profile-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ecf0f1;
+  margin-bottom: 10px;
+}
+
+.user-name {
+  font-size: 16px;
+  margin: 0;
+}
+
+.account-menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.account-menu a {
+  padding: 10px 0;
+  text-decoration: none;
+  color: #ecf0f1;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.account-menu a:hover {
+  background-color: #3f5b70;
+}
+
+.help-sidebar {
+  position: fixed;
+  top: 0;
+  left: -220px;
+  width: 220px;
+  height: 100vh;
+  background-color: #333;
+  color: #ecf0f1;
+  transition: left 0.3s ease;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.help-sidebar.show {
+  left: 220px;
+}
+
+.help-header {
+  margin-bottom: 20px;
+}
+
+.help-header h2 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.center-text {
+  text-align: center;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.help-body h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.help-link {
+  display: block;
+  color: #ecf0f1;
+  text-decoration: none;
+  margin: 8px 0 4px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.help-link:hover {
+  background-color: #777;
+  padding-left: 5px;
+}
+
+.help-note {
+  font-size: 12px;
+  color: #bdc3c7;
+  margin: 0 0 10px 0;
+  padding-left: 10px;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="account-sidebar" id="accountSidebar">
+  <div class="profile-section">
+    <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
+    <h3 class="user-name">John Douglas MC awrtur</h3>
+  </div>
+  <div class="account-menu">
+    <a href="#">Notifications</a>
+    <a href="profile.html">Profile</a>
+    <a href="#">Files</a>
+    <a href="#">Settings</a>
+    <a href="#">ePortfolios</a>
+    <a href="#">QR for Mobile Login</a>
+    <a href="#">Global Announcement</a>
+  </div>
+</div>
+
+ <!-- Organization Sidebar -->
+  <div class="organization-sidebar" id="organizationSidebar">
+    <div class="profile-section">
+    <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
+    <h3 class="user-name">John Douglas MC awrtur</h3>
+    </div>
+    <div class="account-menu">
+      <a href="#">Departments</a>
+      <a href="#">Committees</a>
+      <a href="#">Events</a>
+      <a href="#">Members</a>
+      <a href="#">Documents</a>
+      <a href="#">Reports</a>
+      <a href="#">Settings</a>
+    </div>
+  </div>
+
+  <!-- Help Sidebar -->
+<div class="help-sidebar" id="helpSidebar">
+  <div class="help-header">
+    <h2>Help</h2>
+    <p class="center-text">Little lost? Try here first!</p>
+    <div class="help-search">
+      <p class="center-text">Search the Canvas Guides</p>
+      <p class="center-text">Find answers to common questions</p>
+    </div>
+  </div>
+
+  <div class="help-body">
+    <h3>Other Resources</h3>
+    <a href="#" class="help-link">Academic and Registration Information System (ARIS)</a>
+    <a href="#" class="help-link">Ask Your Instructor a Question</a>
+    <p class="help-note">Questions are submitted to your instructor</p>
+    <a href="#" class="help-link">Report a Problem</a>
+    <p class="help-note">If Canvas misbehaves, tell us about it</p>
+    <a href="#" class="help-link">Submit a Feature Idea</a>
+    <p class="help-note">Have an idea to improve Canvas?</p>
+  </div>
+</div>
+
+
+  <!-- Main Sidebar -->
+<div class="sidebar">
+  <div>
+    <div class="logo">
+      <h1>NBA INSTITUTE</h1>
+    </div>
+    <div class="menu">
+      <a class="menu-item" onclick="toggleAccount()"><i class="far fa-user"></i> Account</a>
+      <a href="Dashboard.html" class="menu-item"><i class="far fa-window-maximize"></i> Dashboard</a>
+      <a href="courses.html" class="menu-item"><i class="far fa-bookmark"></i> Courses</a>
+      <a href="#" class="menu-item" onclick="toggleOrganization()"><i class="far fa-building"></i> Organization</a>
+      <a href="calendar.html" class="menu-item"><i class="far fa-calendar"></i> Calendar</a>
+      <a href="Inbox.html" class="menu-item"><i class="far fa-envelope"></i> Inbox</a>
+      <a href="#" class="menu-item"><i class="far fa-chart-bar"></i> Grades</a>
+      <a href="#" class="menu-item" onclick="toggleHelp()"><i class="far fa-circle-question"></i> Help</a>
+    </div>
+  </div>
+  <div class="signout"><i class="far fa-arrow-alt-circle-left"></i> Sign Out</div>
+</div>
+
+<script>
+  function closeAllSidebars() {
+    document.getElementById('accountSidebar').classList.remove('show');
+    document.getElementById('organizationSidebar').classList.remove('show');
+    document.getElementById('helpSidebar').classList.remove('show');
+  }
+
+  function toggleAccount() {
+    const accountSidebar = document.getElementById('accountSidebar');
+    const isOpen = accountSidebar.classList.contains('show');
+    closeAllSidebars();
+    if (!isOpen) accountSidebar.classList.add('show');
+  }
+
+  function toggleOrganization() {
+    const orgSidebar = document.getElementById('organizationSidebar');
+    const isOpen = orgSidebar.classList.contains('show');
+    closeAllSidebars();
+    if (!isOpen) orgSidebar.classList.add('show');
+  }
+
+  function toggleHelp() {
+    const helpSidebar = document.getElementById('helpSidebar');
+    const isOpen = helpSidebar.classList.contains('show');
+    closeAllSidebars();
+    if (!isOpen) helpSidebar.classList.add('show');
+  }
+</script>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="topbar">
+      <h1>Courses</h1>
+    </div>
+
+    <div class="filters">
+      <input type="text" placeholder="Search your courses">
+      <label>Filter:</label>
+      <select>
+        <option>All Courses</option>
+      </select>
+      <select>
+        <option>25 items per page</option>
+      </select>
+    </div>
+
+    <h2>Favorites</h2>
+
+    <div class="courses-grid">
+      <div class="course-card">
+        <img src="career.jpg" class="course-image" alt="">
+        <div class="course-info">
+          <h3>Career Center</h3>
+          <p>ID: ast101_WCF</p>
+        </div>
+        <div class="course-footer">
+          <span>Instructor: Anthony Edwards</span>
+          <div class="course-actions">
+            <span class="star">&#9733;</span>
+            <span class="more">&#8942;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <img src="comprog.webp" class="course-image" alt="">
+        <div class="course-info">
+          <h3>CITE 003-IT1252 - Computer Programming 2</h3>
+          <p>ID: ast101_WCF</p>
+        </div>
+        <div class="course-footer">
+          <span>Instructor:Bugoy kuykoy</span>
+          <div class="course-actions">
+            <span class="star">&#9733;</span>
+            <span class="more">&#8942;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <img src="Hci.jpg" class="course-image" alt="">
+        <div class="course-info">
+          <h3>CITE 012-IT1252 - Introduction to Human Computer Interaction</h3>
+          <p>ID: ast101_WCF</p>
+        </div>
+        <div class="course-footer">
+          <span>Instructor:Johnny Sins</span>
+          <div class="course-actions">
+            <span class="star">&#9733;</span>
+            <span class="more">&#8942;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <img src="cd.jpg" class="course-image" alt="">
+        <div class="course-info">
+          <h3>Counseling on Demand</h3>
+          <p>ID: ast101_WCF</p>
+        </div>
+        <div class="course-footer">
+          <span>Instructor: Gabbi garcia</span>
+          <div class="course-actions">
+            <span class="star">&#9733;</span>
+            <span class="more">&#8942;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <img src="uts.jpg" class="course-image" alt="">
+        <div class="course-info">
+          <h3>GEC 001-IT1252 - Understanding the Self</h3>
+          <p>ID: ast101_WCF</p>
+        </div>
+        <div class="course-footer">
+          <span>Instructor:Charo Santos</span>
+          <div class="course-actions">
+            <span class="star">&#9733;</span>
+            <span class="more">&#8942;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <img src="P.e.jpg" class="course-image" alt="">
+        <div class="course-info">
+          <h3>Physical Education</h3>
+          <p>ID: ast101_WCF</p>
+        </div>
+        <div class="course-footer">
+          <span>Instructor:Lebron James</span>
+          <div class="course-actions">
+            <span class="star">&#9733;</span>
+            <span class="more">&#8942;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <img src="artap.webp" class="course-image" alt="">
+        <div class="course-info">
+          <h3>GEC 005-IT1252 - Art Appreciation</h3>
+          <p>ID: ast101_WCF</p>
+        </div>
+        <div class="course-footer">
+          <span>Instructor:Joshua Garcia</span>
+          <div class="course-actions">
+            <span class="star">&#9733;</span>
+            <span class="more">&#8942;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <img src="Discrete.avif" class="course-image" alt="">
+        <div class="course-info">
+          <h3>MATH 025-IT12S2 - Discrete Mathematics</h3>
+          <p>ID: ast101_WCF</p>
+        </div>
+        <div class="course-footer">
+          <span>Instructor: Kathrene Bernardo</span>
+          <div class="course-actions">
+            <span class="star">&#9733;</span>
+            <span class="more">&#8942;</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add more course cards as needed -->
+    </div>
+  </div>
+</body>
+</html>

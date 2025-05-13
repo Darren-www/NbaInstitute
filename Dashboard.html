@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Lexend+Deca:wght@100..900&family=Onest:wght@100..900&display=swap" rel="stylesheet">
+
+  <style>
+  * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      height: 100vh;
+    }
+
+.section {
+  position: relative;
+  height: 100vh;
+  padding: 60px 60px 60px 300px; /* left padding accounts for sidebar */
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #bfbfbf;
+  color: #fff;
+  font-family: 'Lexend Deca', sans-serif;
+  border-bottom: 1px solid #aaa;
+}
+
+.advisory-content {
+  max-width: 800px;
+}
+
+.advisory-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.advisory-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.advisory-content .signature {
+  font-size: 0.95rem;
+  font-style: italic;
+  margin-top: 30px;
+}
+
+.section img {
+  position: absolute;
+  top: 0;
+  left: 98;
+  width: 98%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.85; /* optional: to make text more visible */
+}
+
+
+    /* Main Sidebar */
+.sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 100vh;
+      background-color: 	#333333;
+      color: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .logo {
+        text-align: center;
+        font-family: "Lexend Deca", sans-serif;
+        font-size: 10px;
+        padding:  23px 0 24px 0 ;
+    }
+
+       .menu {
+      padding: 0;
+    }
+
+
+
+    .menu-item {
+      padding: 15px 20px;
+      display: block;
+      color: #ecf0f1;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-family: "Comfortaa", sans-serif;
+    }
+
+    .menu-item i {
+  margin-right: 10px;
+  width: 18px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+    .menu-item:hover {
+      background-color:#777777;
+    }
+
+    .signout {
+      padding: 15px 20px;
+      background-color: #c0392b;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .signout:hover {
+      background-color: #e74c3c;
+    }
+
+    /* Account Sub-Sidebar */
+   .account-sidebar, .organization-sidebar  {
+  position: fixed;
+  top: 0;
+  left: -220px;
+  width: 220px;
+  height: 100vh;
+  background-color: #333333;
+  color: #ecf0f1;
+  transition: left 0.3s ease;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+
+.account-sidebar.show {
+  left: 220px;
+}
+
+.organization-sidebar.show {
+      left: 220px;
+    }
+
+.profile-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ecf0f1;
+  margin-bottom: 10px;
+}
+
+.user-name {
+  font-size: 16px;
+  margin: 0;
+}
+
+.account-menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.account-menu a {
+  padding: 10px 0;
+  text-decoration: none;
+  color: #ecf0f1;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.account-menu a:hover {
+  background-color: #777777;
+}
+
+.help-sidebar {
+  position: fixed;
+  top: 0;
+  left: -220px;
+  width: 220px;
+  height: 100vh;
+  background-color: #333;
+  color: #ecf0f1;
+  transition: left 0.3s ease;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.help-sidebar.show {
+  left: 220px;
+}
+
+.help-header {
+  margin-bottom: 20px;
+}
+
+.help-header h2 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.center-text {
+  text-align: center;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.help-body h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.help-link {
+  display: block;
+  color: #ecf0f1;
+  text-decoration: none;
+  margin: 8px 0 4px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.help-link:hover {
+  background-color: #777;
+  padding-left: 5px;
+}
+
+.help-note {
+  font-size: 12px;
+  color: #bdc3c7;
+  margin: 0 0 10px 0;
+  padding-left: 10px;
+}
+
+.section img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.85;
+}
+
+
+
+  </style>
+</head>
+<body>
+<div class="section advisory">
+  <div class="advisory-content">
+    
+    <h1>ADVISORY</h1>
+    <p><strong>To commemorate the EDSA People Power Revolution, ONSITE CLASSES IN ALL LEVELS</strong> at T.I.P. Quezon City and Manila on <strong>Tuesday, February 25, 2025</strong>, shall be suspended.</p>
+    <p>However, faculty members should ensure that asynchronous online activities for students are posted via the Canvas Learning Management System.</p>
+    <p>Onsite office work shall be from 8:00 AM to 5:00 PM.</p>
+    <p>Please be guided accordingly.</p>
+    <p class="signature">This is a message from Technological Institute of the Philippines</p>
+  </div>
+</div>
+
+<div class="section page2">
+  <img src="2.png" alt="NBA Advisory">
+</div>
+
+  <div class="section page3">
+    <img src="kury.jpg" alt="page3">
+  </div>
+
+  <div class="section">
+    <img src="durant.jpg" alt="page3">
+  </div>
+
+  <div class="section">
+    <img src="kobe.jpg" alt="page4">
+  </div>
+
+
+  <!-- Account Sub Sidebar -->
+ <div class="account-sidebar" id="accountSidebar">
+  <div class="profile-section">
+    <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
+    <h3 class="user-name">John Douglas MC awrtur</h3>
+  </div>
+  <div class="account-menu">
+    <a href="#">Notifications</a>
+    <a href="profile.html">Profile</a>
+    <a href="#">Files</a>
+    <a href="#">Settings</a>
+    <a href="#">ePortfolios</a>
+    <a href="#">QR for Mobile Login</a>
+    <a href="#">Global Announcement</a>
+  </div>
+</div>
+
+ <!-- Organization Sidebar -->
+ <div class="organization-sidebar" id="organizationSidebar">
+    <div class="profile-section">
+    <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
+    <h3 class="user-name">John Douglas MC awrtur</h3>
+    </div>
+    <div class="account-menu">
+      <a href="#">Departments</a>
+      <a href="#">Committees</a>
+      <a href="#">Events</a>
+      <a href="#">Members</a>
+      <a href="#">Documents</a>
+      <a href="#">Reports</a>
+      <a href="#">Settings</a>
+    </div>
+  </div>
+<!-- Help Sidebar -->
+  <div class="help-sidebar" id="helpSidebar">
+  <div class="help-header">
+    <h2>Help</h2>
+    <p class="center-text">Little lost? Try here first!</p>
+    <div class="help-search">
+      <p class="center-text">Search the Canvas Guides</p>
+      <p class="center-text">Find answers to common questions</p>
+    </div>
+  </div>
+
+  <div class="help-body">
+    <h3>Other Resources</h3>
+    <a href="#" class="help-link">Academic and Registration Information System (ARIS)</a>
+    <a href="#" class="help-link">Ask Your Instructor a Question</a>
+    <p class="help-note">Questions are submitted to your instructor</p>
+    <a href="#" class="help-link">Report a Problem</a>
+    <p class="help-note">If Canvas misbehaves, tell us about it</p>
+    <a href="#" class="help-link">Submit a Feature Idea</a>
+    <p class="help-note">Have an idea to improve Canvas?</p>
+  </div>
+</div>
+
+
+  <!-- Main Sidebar -->
+<div class="sidebar">
+  <div>
+    <div class="logo">
+      <h1>NBA INSTITUTE</h1>
+    </div>
+    <div class="menu">
+      <a class="menu-item" onclick="toggleAccount()"><i class="far fa-user"></i> Account</a>
+      <a href="Dashboard.html" class="menu-item"><i class="far fa-window-maximize"></i> Dashboard</a>
+      <a href="courses.html" class="menu-item"><i class="far fa-bookmark"></i> Courses</a>
+      <a href="#" class="menu-item" onclick="toggleOrganization()"><i class="far fa-building"></i> Organization</a>
+      <a href="calendar.html" class="menu-item"><i class="far fa-calendar"></i> Calendar</a>
+      <a href="Inbox.html" class="menu-item"><i class="far fa-envelope"></i> Inbox</a>
+      <a href="#" class="menu-item"><i class="far fa-chart-bar"></i> Grades</a>
+      <a href="#" class="menu-item" onclick="toggleHelp()"><i class="far fa-circle-question"></i> Help</a>
+    </div>
+  </div>
+  <div class="signout"><i class="far fa-arrow-alt-circle-left"></i> Sign Out</div>
+</div>
+
+<script>
+  function closeAllSidebars() {
+    document.getElementById('accountSidebar').classList.remove('show');
+    document.getElementById('organizationSidebar').classList.remove('show');
+    document.getElementById('helpSidebar').classList.remove('show');
+  }
+
+  function toggleAccount() {
+    const accountSidebar = document.getElementById('accountSidebar');
+    const isOpen = accountSidebar.classList.contains('show');
+    closeAllSidebars();
+    if (!isOpen) accountSidebar.classList.add('show');
+  }
+
+  function toggleOrganization() {
+    const orgSidebar = document.getElementById('organizationSidebar');
+    const isOpen = orgSidebar.classList.contains('show');
+    closeAllSidebars();
+    if (!isOpen) orgSidebar.classList.add('show');
+  }
+
+  function toggleHelp() {
+    const helpSidebar = document.getElementById('helpSidebar');
+    const isOpen = helpSidebar.classList.contains('show');
+    closeAllSidebars();
+    if (!isOpen) helpSidebar.classList.add('show');
+  }
+</script>
+
+</body>
+</html>

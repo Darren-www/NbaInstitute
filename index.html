@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sidebar Navigation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Lexend+Deca:wght@100..900&family=Onest:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 100vh;
+      background-color: #333333;
+      color: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 2;
+    }
+
+    .logo {
+      text-align: center;
+      padding: 10px 0;
+      font-family: "Onest", sans-serif;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-item i {
+      margin-right: 10px;
+      width: 18px;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .menu-item {
+      padding: 15px 20px;
+      display: block;
+      color: #ecf0f1;
+      text-decoration: none;
+      transition: background 0.3s;
+      font-family: "Comfortaa", sans-serif;
+    }
+
+    .menu-item:hover {
+      background-color: #777777;
+    }
+
+    .signout {
+      padding: 15px 20px;
+      background-color: #c0392b;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .signout:hover {
+      background-color: #e74c3c;
+    }
+
+    /* Common sidebar style (account + org) */
+    .account-sidebar, .organization-sidebar {
+      position: fixed;
+      top: 0;
+      left: -220px;
+      width: 220px;
+      height: 100vh;
+      background-color: #333333;
+      color: #ecf0f1;
+      transition: left 0.3s ease;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+    }
+
+    .account-sidebar.show {
+      left: 220px;
+    }
+
+    .organization-sidebar.show {
+      left: 220px;
+    }
+
+    .profile-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ecf0f1;
+      margin-bottom: 10px;
+    }
+
+    .user-name {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .account-menu {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+    }
+
+    .account-menu a {
+      padding: 10px 0;
+      text-decoration: none;
+      color: #ecf0f1;
+      width: 100%;
+      text-align: center;
+      transition: background-color 0.3s;
+      font-family: "Lexend Deca", sans-serif;
+    }
+
+    .account-menu a:hover {
+      background-color: #777777;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Account Sidebar -->
+  <div class="account-sidebar" id="accountSidebar">
+    <div class="profile-section">
+      <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
+      <h3 class="user-name">John Douglas MC awrtur</h3>
+    </div>
+    <div class="account-menu">
+      <a href="#">Notifications</a>
+      <a href="#">Profile</a>
+      <a href="#">Files</a>
+      <a href="#">Settings</a>
+      <a href="#">ePortfolios</a>
+      <a href="#">QR for Mobile Login</a>
+      <a href="#">Global Announcement</a>
+    </div>
+  </div>
+
+  <!-- Organization Sidebar -->
+  <div class="organization-sidebar" id="organizationSidebar">
+    <div class="profile-section">
+      <img src="org_logo.png" alt="Org Logo" class="profile-pic">
+      <h3 class="user-name">Organization Name</h3>
+    </div>
+    <div class="account-menu">
+      <a href="#">Departments</a>
+      <a href="#">Committees</a>
+      <a href="#">Events</a>
+      <a href="#">Members</a>
+      <a href="#">Documents</a>
+      <a href="#">Reports</a>
+      <a href="#">Settings</a>
+    </div>
+  </div>
+
+  <!-- Main Sidebar -->
+  <div class="sidebar">
+    <div>
+      <div class="logo">
+        <h1>Minimalist Institute</h1>
+      </div>
+      <div class="menu">
+        <a class="menu-item" onclick="toggleAccount()"><i class="far fa-user"></i> Account</a>
+        <a href="Dashboard.html" class="menu-item"><i class="far fa-window-maximize"></i> Dashboard</a>
+        <a href="courses.html" class="menu-item"><i class="far fa-bookmark"></i> Courses</a>
+        <a href="#" class="menu-item" onclick="toggleOrganization()"><i class="far fa-building"></i> Organization</a>
+        <a href="calendar.html" class="menu-item"><i class="far fa-calendar"></i> Calendar</a>
+        <a href="Inbox.html" class="menu-item"><i class="far fa-envelope"></i> Inbox</a>
+        <a href="#" class="menu-item"><i class="far fa-chart-bar"></i> Grades</a>
+        <a href="#" class="menu-item"><i class="far fa-circle-question"></i> Help</a>
+      </div>
+    </div>
+    <div class="signout"><i class="far fa-arrow-alt-circle-left"></i> Sign Out</div>
+  </div>
+
+  <script>
+    function toggleAccount() {
+    const accountSidebar = document.getElementById('accountSidebar');
+    const orgSidebar = document.getElementById('organizationSidebar');
+
+    if (accountSidebar.classList.contains('show')) {
+      accountSidebar.classList.remove('show');
+    } else {
+      orgSidebar.classList.remove('show');
+      accountSidebar.classList.add('show');
+    }
+  }
+
+  function toggleOrganization() {
+    const accountSidebar = document.getElementById('accountSidebar');
+    const orgSidebar = document.getElementById('organizationSidebar');
+
+    if (orgSidebar.classList.contains('show')) {
+      orgSidebar.classList.remove('show');
+    } else {
+      accountSidebar.classList.remove('show');
+      orgSidebar.classList.add('show');
+    }
+  }
+  </script>
+</body>
+</html>
